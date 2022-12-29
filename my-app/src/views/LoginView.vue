@@ -1,24 +1,32 @@
 <template lang="">
 <div class="login-page">
   <div class="form">
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
+    <a href="/">Home</a>
     <form class="login-form">
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
-      <p class="message">Not registered? <a href="#">Create an account</a></p>
+      <input type="text" placeholder="username" v-modle="loginform.id"/>
+      <input type="password" placeholder="password" v-modle="loginform.pw"/>
+      <button @click="LoGin">login</button>
+      <p class="message">회원가입 하시겠습니까? <a href="/create">Create an account</a></p>
     </form>
   </div>
 </div>
 </template>
 <script>
 export default {
+  data(){
+    return{
+      loginform:{
+        id:'',
+        pw:''
+
+      }
+    }
+  },
+  methods:{
+    LoGin(){
+      console.log(this.loginform)
+    }
+  }
 }
 </script>
 <style>

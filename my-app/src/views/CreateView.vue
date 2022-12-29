@@ -2,16 +2,32 @@
     <div class="login-page">
       <div class="form">
         <form class="login-form">
-          <input type="text" placeholder="name"/>
-          <input type="password" placeholder="password"/>
-          <input type="text" placeholder="email address"/>
-          <button>create</button>
-          <p class="message">Already registered? <a href="#">Sign In</a></p>
+          <input type="text" placeholder="name" v-model="createform.id"/>
+          <input type="password" placeholder="password" v-model="createform.pw"/>
+          <input type="text" placeholder="email address" v-model="createform.email"/>
+          <button @click="Create">create</button>
+          <p class="message"> <a href="/login">Sign In</a></p>
         </form>
       </div>
     </div>
 </template>
 <script>
+export default {
+  data(){
+    return{
+      createform:{
+        id:'',
+        pw:'',
+        email:''
+      }
+    }
+  },
+  methods:{
+    Create(){
+      console.log(this.createform)
+    }
+  }
+}
 </script>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Roboto:300);
