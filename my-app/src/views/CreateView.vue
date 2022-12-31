@@ -5,13 +5,15 @@
           <input type="text" placeholder="name" v-model="createform.id"/>
           <input type="password" placeholder="password" v-model="createform.pw"/>
           <input type="text" placeholder="email address" v-model="createform.email"/>
-          <button @click="Create">create</button>
-          <p class="message"> <a href="/login">Sign In</a></p>
         </form>
+        <button @click="Create">create</button>
+        <p class="message"> <a href="/login">Sign In</a></p>
       </div>
     </div>
 </template>
 <script>
+import router from '@/router'
+import axios from 'axios'
 export default {
   data(){
     return{
@@ -24,7 +26,24 @@ export default {
   },
   methods:{
     Create(){
-      console.log(this.createform)
+      axios.post('api/borderuser',this.createform)
+      .then((res)=>{
+        console.log(res.data)
+        router.push('/')
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+
+    },
+    Login(){
+      if(sessionStorage.getItem('id') == undefined){
+        router.push('/login')
+      }else{
+        sessionStorage.clear()
+        alert('로그아웃 하셨습니다')
+        router.go()
+      }
     }
   }
 }

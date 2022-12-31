@@ -1,10 +1,9 @@
 <template>
     <v-app class="mx-auto">
       <v-layout>
-        <v-app-bar
-          color="green"
-          density="compact"
-        >
+        <v-app-bar color="green" density="compact">
+
+
           <template v-slot:prepend>
             <v-app-bar-nav-icon @click="Login">{{ loge }}</v-app-bar-nav-icon>
           </template>
@@ -36,15 +35,13 @@
                     <th class="text-left">Num</th>
                     <th class="text-left">제목</th>
                     <th class="text-left">작성자</th>
-                    <th class="text-left">방문</th>
                   </tr>
                 </thead>
                 <tbody>
                     <tr v-for="item in testItems" :key="item.num">
                       <td>{{ item.num }}</td>
                       <td><button @click="Move" :value=item.num>{{ item.title }}</button></td>
-                      <td>{{ item.creater }}</td>
-                      <td>{{ item.visiter }}</td>
+                      <td>{{ item.twitter }}</td>
                     </tr>
                 </tbody>
               </v-table>
@@ -68,24 +65,30 @@
 
 <script>
 import router from '@/router/index';
+import axios from 'axios';
 export default {
+  mounted(){
+    axios.get('api/content')
+    .then((res) => {
+      this.testItems = res.data
+      console.log(res.data)
+    })
+    if(sessionStorage.getItem('id') != undefined){
+      console.log(sessionStorage.getItem('id'))
+      this.loge = 'LOGOUT'
+    }
+
+
+  },
   data() {
     return{
       testItems: [
-          { num: 1, title: '취업하고 싶다', creater: '로로', visiter: 0 },
-          { num: 2, title: '취업하고 싶으면 개추', creater: '룰루', visiter: 0 },
-          { num: 3, title: '취업시켜 주세요', creater: '랄라', visiter: 0 },
-          { num: 4, title: '취업하고 싶다', creater: '로로', visiter: 0 },
-          { num: 5, title: '취업하고 싶으면 개추', creater: '룰루', visiter: 0 },
-          { num: 6, title: '취업시켜 주세요', creater: '랄라', visiter: 0 },
-          { num: 7, title: '취업하고 싶다', creater: '로로', visiter: 0 },
-          { num: 8, title: '취업하고 싶으면 개추', creater: '룰루', visiter: 0 },
-          { num: 9, title: '취업시켜 주세요', creater: '랄라', visiter: 0 },
       ],
       num :'',
       page : 1,
       len: '',
-      loge: 'LOGIN'
+      loge: 'LOGIN',
+      setid: ''
     }
   },
   methods:{
@@ -99,10 +102,22 @@ export default {
       router.push('/')
     },
     Create(){
-      router.push('/detail')
+      if(sessionStorage.getItem('id') == undefined){
+        alert('로그인해주세요')
+        router.push('/login')
+      }else{
+        router.push('/detail')
+      }
     },
     Login(){
-      router.push('/login')
+      if(sessionStorage.getItem('id') == undefined){
+        router.push('/login')
+      }else{
+        sessionStorage.clear()
+        alert('로그아웃 하셨습니다')
+        router.go()
+      }
+
     }
   }
 }

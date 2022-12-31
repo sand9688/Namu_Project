@@ -11,11 +11,13 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false}))
 
-app.use('/api/test', require('./routes/test')) 
+app.use('/api/test', require('./routes/test'))
 app.use('/api/user', require('./routes/userInforotuer'))
+app.use('/api/borderuser', require('./routes/borderuser'))
+app.use('/api/content', require('./routes/content'))
 
 app.use(errorHandler)
 
-app.listen(port, () => 
+app.listen(port, () =>
     console.log(`Server started on port ${port}`)
 );

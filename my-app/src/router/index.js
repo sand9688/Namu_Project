@@ -22,8 +22,13 @@ const routes = [
   },
   {
     path: '/detail',
-    name: 'detail',
+    name: 'createContent',
     component: () => import(/* webpackChunkName: "about" */ '../views/DetailView.vue')
+  },
+  {
+    path: '/content/update/:num',
+    name: 'update',
+    component: () => import(/* webpackChunkName: "about" */ '../views/UpdateView.vue')
   }
 
 ]

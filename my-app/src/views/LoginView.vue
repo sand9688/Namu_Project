@@ -3,28 +3,43 @@
   <div class="form">
     <a href="/">Home</a>
     <form class="login-form">
-      <input type="text" placeholder="username" v-modle="loginform.id"/>
-      <input type="password" placeholder="password" v-modle="loginform.pw"/>
-      <button @click="LoGin">login</button>
-      <p class="message">회원가입 하시겠습니까? <a href="/create">Create an account</a></p>
+      <input type="text" v-model="dataform.id" placeholder="userID" />
+      <input type="password" v-model="dataform.pw" placeholder="Password" />
     </form>
+    <button @click="LoGin">login</button>
+    <p class="message">회원가입 하시겠습니까? <a href="/create">Create an account</a></p>
   </div>
 </div>
 </template>
 <script>
+import router from '@/router'
+import axios from 'axios'
 export default {
   data(){
     return{
-      loginform:{
+      dataform:{
         id:'',
         pw:''
 
-      }
+      },
+      setid:''
     }
   },
   methods:{
     LoGin(){
-      console.log(this.loginform)
+      console.log(this.dataform)
+      axios.post('api/borderuser/login', this.dataform)
+      .then((res)=>{
+        console.log(res.data)
+        sessionStorage.setItem('id', res.data.id)
+        this.setid = sessionStorage.getItem('id')
+        router.push('/')
+      })
+      .catch((err)=>{
+        console.log(err.response.data.message)
+        alert(err.response.data.message)
+      })
+
     }
   }
 }
